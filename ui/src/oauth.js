@@ -1,5 +1,3 @@
-import axios from 'axios';
-
 function getAccessCode() {
   // Returns that access code that is generated after the
   // OAUTH2 redirect to SalesForce
@@ -38,6 +36,35 @@ function buildAuthorizeURL(authorizeURL, redirectURL, clientID){
 export { buildAuthorizeURL }
 
 
-// const instance = axios.create({
-//       headers: {'content-type': 'application/x-www-form-urlencoded'}
-// });
+function buildTokenURL(tokenURL, redirectURL, clientID, clientSecret){
+  // Buildds the URL for retrieving the access token that is used
+  // for subsequent API calls.
+  //
+  // Parameters
+  // ----------
+  // tokenURL : str
+  //    the url that is used to fetch the access token
+  // redirectURL : str
+  //    the URL of that SalesForce will redirect to after authentication
+  // clientID : str
+  //    the client ID for the Connected App
+  // clientSecret : str
+  //    the client secret for the Connected App
+  //
+  // Returns
+  // -------
+  // response : Promise
+  //    the axios response, which returns as a promise
+  //
+  const accessCode = getAccessCode() ;
+
+  let fullTokenURL = tokenURL ;
+  fullTokenURL += '?grant_type=authorization_code' ;
+  fullTokenURL += '&redirect_uri=' + redirectURL ;
+  fullTokenURL += '&code=' + accessCode ;
+  fullTokenURL += '&client_id=' + clientID ;
+  fullTokenURL += '&client_secret=' + clientSecret ;
+
+  return fullTokenURL
+}
+export { buildTokenURL }

@@ -183,4 +183,7 @@
   text-align: center;
 }
 
+.input-box {
+  max-width: 30vw;
+}
 
