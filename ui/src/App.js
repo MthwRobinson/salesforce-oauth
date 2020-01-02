@@ -2,7 +2,6 @@ import axios from 'axios';
 import React, { Component } from 'react';
 import {
   Button,
-	Col,
   ControlLabel,
   Form,
   FormControl,
