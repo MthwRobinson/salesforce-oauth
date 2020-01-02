@@ -3,9 +3,12 @@
 }
 
 .app-body {
-  width: 80%;
+  width: 92%;
   text-align: left;
-  margin: 2%
+  margin-top: 2%;
+  margin-bottom: 2%;
+  margin-left: 5%;
+  margin-right: 5%;
 }
 
 /* Standardized menu styling for across the app */
@@ -31,159 +34,6 @@
 .menu-content > a:hover {
   color: #666666;
   text-decoration: none;
-}
-
-/* Search styles used in events and participants */
-.search-box {
-  max-width: 30vw;
-}
-
-.search-term-row {
-  padding-right: 6%;
-  padding-left: 2%;
-  padding-bottom: 5px;
-  font-size: 16px;
-}
-
-#search-term-list {
-  display: inline-block;
-  padding-top: 5px;
-}
-
-.search-term-pill {
-  margin-right: 5px;
-  margin-left: 5px;
-  margin-top: 3px;
-  font-size: 11px;
-  background-color: #007bff;
-  color: white;
-  letter-spacing: .5px;
-  line-height: 15px;
-  border: 2px solid #007bff;
-  border-radius: 40px;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  padding-right: 5px;
-  padding-left: 5px;
-}
-
-.search-term-times {
-  margin-top: 2px;
-}
-
-/* The filter form that is used in events and participants */
-.filter-form {
-  margin-right: 5px;
-}
-
-.filter-form-date-input {
-  max-width: 110px;
-}
-
-.filter-form-age-input {
-  max-width: 70px;
-}
-
-.filter-form-label {
-  margin-left: 5px;
-  margin-right: 5px;
-}
-
-.record-tabs {
-  font-family: 'Source Sans Pro', sans-serif;
-  color: black;
-  outline: black;
-  margin-bottom: 10px;
-}
-
-.record-tab, .record-tab:hover {
-  color: black;
-  font-size: 22px;
-  text-decoration: none;
-  padding-right: 10px;
-  padding-left: 10px;
-  margin-right: 5px;
-  border-top: 1px solid black;
-  border-left: 1px solid black;
-  border-right: 1px solid black;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
-}
-
-.record-tab:hover {
-  background-color: lightgrey;
-  cursor: pointer;
-}
-
-.record-tab-selected {
-  background-color: lightgrey;
-}
-
-.record-tab > li {
-  color: black;
-}
-
-.record-tab > li:hover {
-  text-decoration: none;
-  cursor: pointer;
-}
-
-/* Styles that are used for the tables that */
-.events-header {
-  margin-bottom: 10px;
-  margin-top: 15px;
-}
-
-.event-icons {
-  padding-left: 15px;
-}
-
-.event-icons:hover{
-  cursor: pointer;
-}
-
-.event-table {
-  max-height: 63vh;
-  width: 100%;
-  padding-left: 3%;
-  padding-right: 3%;
-  overflow-y: scroll;
-}
-
-.event-header {
-  padding-bottom: 40px;
-  padding-right: 6%;
-  padding-left: 2%;
-}
-
-.search-button {
-  margin-left: 5px;
-}
-
-.paging {
-  font-size: 24px;
-}
-
-.paging-arrows {
-  margin-left: 5px;
-  margin-right: 3px;
-}
-
-.paging-arrows:hover {
-  cursor: pointer;
-}
-
-.table-row:hover {
-  cursor: pointer;
-}
-
-.table-heading:hover {
-  cursor: pointer;
-}
-
-.event-loading {
-  padding-left: 50%;
-  padding-left: 50%;
 }
 
 /* Styles for success and error messages. */
@@ -226,10 +76,6 @@
 
 .navbar-default .navbar-brand:hover {
   color: white;
-}
-
-.navbar-default .navbar-nav > .active > a,
-.navbarder {
 }
 
 .navbar {
