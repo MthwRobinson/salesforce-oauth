@@ -1,0 +1,16 @@
+body, a, h1, h2, h3, h4 {
+  font-family: 'Source Sans Pro', sans-serif;
+}
+
+p {
+  font-family: 'Source Sans Serif', sans-serif;
+}
+
+h2 {
+  line-height: 80%;
+}
+
+hr {
+  border-color: black;
+}
+
