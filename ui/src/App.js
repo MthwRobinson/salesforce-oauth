@@ -18,7 +18,7 @@ import '../node_modules/react-bootstrap-toggle/dist/bootstrap2-toggle.css';
 
 const AUTHORIZE_URL = 'salesforce.com/services/oauth2/authorize'
 // Pulls the redirect URL dynamically by looking for the URL of the current page.
-const REDIRECT_URL = window.location.protocol + '://' +  window.location.hostname
+const REDIRECT_URL = window.location.protocol + '//' +  window.location.hostname
 
 class App extends Component {
 
@@ -34,8 +34,16 @@ class App extends Component {
     this.handleInstanceType = this.handleInstanceType.bind(this);
   }
 
+  componentDidMount(){
+    // Pulls the client ID from session storage
+    this.setState({'clientID': sessionStorage.getItem('clientID')}) ;
+  }
+
 	handleClientID(event) {
-		this.setState({clientID: event.target.value});
+    this.setState({clientID: event.target.value});
+    // Store the client ID in session storage so we don't have to type
+    // it in again after every page reload
+    sessionStorage.setItem('clientID', event.target.value) ;
 	}
 
   handleInstanceType(event) {
