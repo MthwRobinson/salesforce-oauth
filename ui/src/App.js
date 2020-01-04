@@ -3,10 +3,12 @@ import React, { Component } from 'react';
 import {
   Button,
   ControlLabel,
+  Col,
   Form,
   FormControl,
   FormGroup,
-  Navbar } from 'react-bootstrap';
+  Navbar,
+  Row } from 'react-bootstrap';
 import { buildAuthorizeURL, buildTokenURL, getAccessCode } from './oauth';
 
 import './App.css';
@@ -86,38 +88,45 @@ class App extends Component {
             </Navbar.Brand>
           </Navbar.Header>
         </Navbar>
+
         <div className="app-body">
-          <h3>Let's Connect to SalesForce!</h3>
-          <p>This page provides instructions for connecting to the SalesForce API using the OAUTH2 workflow. OAUTH2 enables an app to integrate with SalesForce on behalf of the user without having to store the user's SalesForce credentials.</p>
-          <h4>Register a Connect App on SalesForce</h4>
-          <h4>Authenticate with SalesForce</h4>
-          <p>Click <a href={authorizeURL}>this link</a> to authenticate with SalesForce. After you authenticate with SalesForce, you will be redirected back to this page. When SalesForce redirects you, it will include an access code that you can use to interact with SalesForce via the API. You'll see the access code populate below.</p>
-          {accessCodeMessage}
-          <h4>Make an API Call</h4>
-            <Form onSubmit={this.handleSubmit} >
-              <FormGroup className="pullLeft">
-                <ControlLabel>Client ID</ControlLabel>
-                <FormControl
-                  className="input-box"
-                  value={this.state.clientID}
-                  onChange={this.handleClientID}
-                  type="text"
-                />
-                <ControlLabel>Client Secret</ControlLabel>
-                <FormControl
-                  className="input-box"
-                  value={this.state.clientSecret}
-                  onChange={this.handleClientSecret}
-                  type="text"
-                />
-              </FormGroup>
-              <Button
-                className="login-button pullRight"
-                bsStyle="primary"
-                type="submit"
-              >Submit</Button>
-            </Form>
-            <p>{this.state.accessToken}</p>
+          <Row>
+            <Col xs={6} sm={6} md={6} lg={6}>
+            <h4>Let's Connect to SalesForce!</h4>
+              <p>This page provides instructions for connecting to the SalesForce API using the OAUTH2 workflow. OAUTH2 enables an app to integrate with SalesForce on behalf of the user without having to store the user's SalesForce credentials.</p>
+              <h4>Register a Connect App on SalesForce</h4>
+              <h4>Authenticate with SalesForce</h4>
+              <p>Click <a href={authorizeURL}>this link</a> to authenticate with SalesForce. After you authenticate with SalesForce, you will be redirected back to this page. When SalesForce redirects you, it will include an access code that you can use to interact with SalesForce via the API. You'll see the access code populate below.</p>
+            </Col>
+            <Col xs={6} sm={6} md={6} lg={6}>
+              {accessCodeMessage}
+              <h4>Make an API Call</h4>
+              <Form onSubmit={this.handleSubmit} >
+                <FormGroup className="pullLeft">
+                    <ControlLabel>Client ID</ControlLabel>
+                    <FormControl
+                      className="input-box"
+                      value={this.state.clientID}
+                      onChange={this.handleClientID}
+                      type="text"
+                    />
+                    <ControlLabel>Client Secret</ControlLabel>
+                    <FormControl
+                      className="input-box"
+                      value={this.state.clientSecret}
+                      onChange={this.handleClientSecret}
+                      type="text"
+                    />
+                </FormGroup>
+                <Button
+                  className="login-button pullRight"
+                  bsStyle="primary"
+                  type="submit"
+                >Submit</Button>
+              </Form>
+              <p>{this.state.accessToken}</p>
+            </Col>
+          </Row>
 
         </div>
       </div>
