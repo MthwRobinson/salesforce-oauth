@@ -17,7 +17,8 @@ import '../node_modules/font-awesome/css/font-awesome.min.css';
 import '../node_modules/react-bootstrap-toggle/dist/bootstrap2-toggle.css';
 
 const AUTHORIZE_URL = 'salesforce.com/services/oauth2/authorize'
-const REDIRECT_URL = 'http://localhost'
+// Pulls the redirect URL dynamically by looking for the URL of the current page.
+const REDIRECT_URL = window.location.protocol + '://' +  window.location.hostname
 
 class App extends Component {
 
