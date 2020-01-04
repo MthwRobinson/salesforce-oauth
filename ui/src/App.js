@@ -1,4 +1,3 @@
-import axios from 'axios';
 import React, { Component } from 'react';
 import {
   Button,
@@ -9,7 +8,7 @@ import {
   FormGroup,
   Navbar,
   Row } from 'react-bootstrap';
-import { buildAuthorizeURL, buildTokenURL, getAccessCode } from './oauth';
+import { buildAuthorizeURL, getAccessCode } from './oauth';
 
 import './App.css';
 
@@ -17,12 +16,8 @@ import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import '../node_modules/font-awesome/css/font-awesome.min.css';
 import '../node_modules/react-bootstrap-toggle/dist/bootstrap2-toggle.css';
 
-const AUTHORIZE_URL = 'https://login.salesforce.com/services/oauth2/authorize'
-const ACCESS_TOKEN_URL = 'https://login.salesforce.com/services/oauth2/token'
+const AUTHORIZE_URL = 'salesforce.com/services/oauth2/authorize'
 const REDIRECT_URL = 'http://localhost'
-const CLIENT_ID = '3MVG9LBJLApeX_PALNAqPimqAftXQLHzwH_ZUXRKh7UC6eAWLmd8Gp8kOmEHJOBJ97wDank4abH5SWrZNfXAD'
-
-// https://yourInstance.salesforce.com/services/data/v37.0/sobjects/ -H "Authorization: Bearer token"
 
 class App extends Component {
 
@@ -30,50 +25,32 @@ class App extends Component {
 		super(props);
 		this.state = {
       clientID: null,
-      clientSecret: null,
-      accessToken: null,
-      accessCode: null,
-      instanceURL: null
+      authorizePrefix: 'https://login.'
     }
 
     // Bindings for the API request form
     this.handleClientID = this.handleClientID.bind(this);
-    this.handleClientSecret = this.handleClientSecret.bind(this);
+    this.handleInstanceType = this.handleInstanceType.bind(this);
   }
 
 	handleClientID(event) {
 		this.setState({clientID: event.target.value});
 	}
 
-  handleClientSecret(event) {
-		this.setState({clientSecret: event.target.value});
+  handleInstanceType(event) {
+		this.setState({authorizePrefix: event.target.value});
   }
-
-
-	handleSubmit = (event) => {
-		// Prevents the app from refreshing on submit
-		this.setState({attempted: false, error: false})
-    event.preventDefault();
-    const tokenURL = buildTokenURL(ACCESS_TOKEN_URL,
-                                   REDIRECT_URL,
-                                   this.state.clientID,
-      														 this.state.clientSecret) ;
-
-
-
-		axios.post(tokenURL, {crossdomain: true})
-			.then(function (response) {
-				console.log(response);
-			}) ;
-	}
 
   render() {
     let accessCode = getAccessCode() ;
-    let authorizeURL = buildAuthorizeURL(AUTHORIZE_URL, REDIRECT_URL, CLIENT_ID) ;
+    const authorizeBaseURL = this.state.authorizePrefix + AUTHORIZE_URL
+    let authorizeURL = buildAuthorizeURL(authorizeBaseURL,
+                                         REDIRECT_URL,
+                                         this.state.clientID) ;
 
     let accessCodeMessage = null ;
     if(accessCode){
-      accessCodeMessage = (<ul><li>Access Code: {accessCode}</li></ul>) ;
+      accessCodeMessage = (<p><b>Access Code:</b> {accessCode}</p>) ;
     }
 
     return (
@@ -97,34 +74,37 @@ class App extends Component {
               <h4>Register a Connect App on SalesForce</h4>
               <h4>Authenticate with SalesForce</h4>
               <p>Click <a href={authorizeURL}>this link</a> to authenticate with SalesForce. After you authenticate with SalesForce, you will be redirected back to this page. When SalesForce redirects you, it will include an access code that you can use to interact with SalesForce via the API. You'll see the access code populate below.</p>
+            {accessCodeMessage}
             </Col>
             <Col xs={6} sm={6} md={6} lg={6}>
-              {accessCodeMessage}
-              <h4>Make an API Call</h4>
+              <h4>Obtain an Access Code</h4>
               <Form onSubmit={this.handleSubmit} >
                 <FormGroup className="pullLeft">
-                    <ControlLabel>Client ID</ControlLabel>
+                    <ControlLabel>Consumer Key</ControlLabel>
                     <FormControl
                       className="input-box"
                       value={this.state.clientID}
                       onChange={this.handleClientID}
                       type="text"
                     />
-                    <ControlLabel>Client Secret</ControlLabel>
+                    <ControlLabel>Instance Type</ControlLabel>
                     <FormControl
                       className="input-box"
-                      value={this.state.clientSecret}
-                      onChange={this.handleClientSecret}
-                      type="text"
-                    />
+											componentClass="select"
+											value={this.state.authorizationPrefix}
+											onChange={this.handleInstanceType}
+										>
+                      <option value='https://login.'>Production</option>
+                      <option value='https://test.'>Sandbox</option>
+										</FormControl>
+
                 </FormGroup>
                 <Button
                   className="login-button pullRight"
                   bsStyle="primary"
-                  type="submit"
+                  href={authorizeURL}
                 >Submit</Button>
               </Form>
-              <p>{this.state.accessToken}</p>
             </Col>
           </Row>
 
