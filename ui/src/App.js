@@ -77,13 +77,15 @@ class App extends Component {
         <div className="app-body">
           <Row>
             <Col xs={8} sm={8} md={8} lg={8}>
-              <h4>Let's Connect to SalesForce!</h4>
-              <p>This page provides instructions for connecting to the SalesForce API using the OAuth2 workflow. OAuth2 enables an app to integrate with SalesForce on behalf of the user without having to store the user's SalesForce credentials.</p>
-              <h4>Step 1: Register a Connected App on SalesForce</h4>
+              <h4>Let's Connect to Salesforce!</h4>
+              <p>This page provides instructions for connecting to the Salesforce API using the OAuth2 workflow. OAuth2 enables an app to integrate with Salesforce on behalf of the user without having to store the user's Salesforce credentials.</p>
+              <h4>Step 1: Register a Connected App on Salesforce</h4>
               <p>The first step is to register a Connected App on your Salesforce account. To register a Connected App, go to your Setup screen, click "App Manager", and then click "New Connected App" in the top right corner. From there, fill out the basic information for your app, and then check the "Enable OAuth Settings". Once that's done, enter <b>{REDIRECT_URL}</b> as the callback URL and move "Full access" over to the "Selected OAuth Scopes".</p>
-              <h4>Step 2: Authenticate with SalesForce</h4>
+              <h4>Step 2: Authenticate with Salesforce</h4>
               <p>Use the form to the right to authenticate with Salesforce. Enter your Consumer Key from the Connected App into the first field, and then use the drop down to indicate whether you are authenticating to a production instance or a sandbox instance. Production instances authenticate with <b>https://login.salesforce.com</b>, whereas sandbox instances authenticate with <b>https://test.salesforce.com</b>. When you're ready, hit "Authenticate". The first time you do this, you'll be redirected to a Salesforce login page, which will ask you to authorize the Connected App to make API requests on behalf of your account. Once you've logged in, you'll be redirected back to this page, and an access code will appear below. If you've already authorized the Salesforce integration, this page will simply refresh with an access code.</p>
-            {accessCodeMessage}
+              {accessCodeMessage}
+              <h4>Step 3: Give it a try!</h4>
+              <p>Using your access code, you can now make a request to the Salesforce access token endpoint. This will return an access token and instance URL, which you can use to make requests from Salesforce API endpoints. To see how to implement this workflow in Python, check out <a href="https://github.com/MthwRobinson/salesforce-oauth/blob/master/api/salesforce_oauth.py" target="_blank">This file in the GitHub repo</a>. You can try it out in your browser using our <a href="https://repl.it/@FdlrAnalytics/salesforceoauth" target="_blank">repl.it script</a></p>.
             </Col>
             <Col xs={4} sm={4} md={4} lg={4}>
               <h4>Obtain an Access Code</h4>
