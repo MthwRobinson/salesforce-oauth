@@ -68,8 +68,7 @@ class App extends Component {
           <Navbar.Header>
             <Navbar.Brand>
               <a href="/" className='pull-left'>
-                <i className="fa fa-cloud"></i>
-                <b>{' '}SalesForce API</b>
+                <img src="./fiddler_logo.png" className="image-background" height="40px" alt="" />
               </a>
             </Navbar.Brand>
           </Navbar.Header>
