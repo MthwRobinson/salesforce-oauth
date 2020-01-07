@@ -26,17 +26,20 @@ class App extends Component {
 		super(props);
 		this.state = {
       clientID: null,
-      authorizePrefix: 'https://login.'
+      authorizePrefix: 'https://login.',
+      customDomain: '',
     }
 
     // Bindings for the API request form
     this.handleClientID = this.handleClientID.bind(this);
     this.handleInstanceType = this.handleInstanceType.bind(this);
+    this.handleCustomDomain = this.handleCustomDomain.bind(this);
   }
 
   componentDidMount(){
-    // Pulls the client ID from session storage
-    this.setState({'clientID': sessionStorage.getItem('clientID')}) ;
+    // Pulls the client ID and custom domain from session storage
+    this.setState({'clientID': sessionStorage.getItem('clientID'),
+                   'customDomain': sessionStorage.getItem('customDomain')}) ;
   }
 
 	handleClientID(event) {
@@ -50,16 +53,54 @@ class App extends Component {
 		this.setState({authorizePrefix: event.target.value});
   }
 
+  handleCustomDomain(event) {
+		this.setState({customDomain: event.target.value});
+    // Store the custom domain in session storage so we don't have to type
+    // it in again after every page reload
+    sessionStorage.setItem('customDomain', event.target.value) ;
+  }
+
+  buildAuthorizeURL = () => {
+    // Constructs the OAuth2 authorization URL based on the input form.
+    // Includes special handling for users that require authentication
+    // via custom community URLs.
+    let authorizeBaseURL = null ;
+    if(this.state.authorizePrefix==='CUSTOM'){
+      authorizeBaseURL = this.state.customDomain + '/services/oauth2/authorize' ;
+
+    } else {
+      authorizeBaseURL = this.state.authorizePrefix + AUTHORIZE_URL
+    }
+    let authorizeURL = buildAuthorizeURL(authorizeBaseURL,
+                                        REDIRECT_URL,
+                                        this.state.clientID) ;
+    return authorizeURL
+  }
+
   render() {
     let accessCode = getAccessCode() ;
-    const authorizeBaseURL = this.state.authorizePrefix + AUTHORIZE_URL
-    let authorizeURL = buildAuthorizeURL(authorizeBaseURL,
-                                         REDIRECT_URL,
-                                         this.state.clientID) ;
+    let authorizeURL = this.buildAuthorizeURL() ;
 
+    // Renders the access code if code is included as a query parameter
     let accessCodeMessage = null ;
     if(accessCode){
       accessCodeMessage = (<p><b>Access Code:</b> {accessCode}</p>) ;
+    }
+
+    // Includes the special form for custom URL if users select that option
+    let customDomainForm = null ;
+    if(this.state.authorizePrefix==='CUSTOM'){
+      customDomainForm = (
+        <div>
+        <ControlLabel>Custom Domain</ControlLabel>
+        <FormControl
+          className="input-box"
+          value={this.state.customDomain}
+          onChange={this.customDomain}
+          type="text"
+        />
+        </div>
+      ) ;
     }
 
     return (
@@ -107,8 +148,9 @@ class App extends Component {
 										>
                       <option value='https://login.'>Production</option>
                       <option value='https://test.'>Sandbox</option>
+                      <option value='CUSTOM'>Custom</option>
 										</FormControl>
-
+                    {customDomainForm}
                 </FormGroup>
                 <Button
                   className="login-button pullRight"
