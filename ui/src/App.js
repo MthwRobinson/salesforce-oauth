@@ -26,7 +26,7 @@ class App extends Component {
 		super(props);
 		this.state = {
       clientID: null,
-      authorizePrefix: 'https://login.',
+      authorizePrefix: '',
       customDomain: '',
     }
 
@@ -37,9 +37,14 @@ class App extends Component {
   }
 
   componentDidMount(){
+    let authorizePrefix = sessionStorage.getItem('authorizePrefix') ;
+    if(!authorizePrefix){
+      authorizePrefix = 'https://login.' ;
+    }
     // Pulls the client ID and custom domain from session storage
     this.setState({'clientID': sessionStorage.getItem('clientID'),
-                   'customDomain': sessionStorage.getItem('customDomain')}) ;
+      'customDomain': sessionStorage.getItem('customDomain'),
+      'authorizePrefix': authorizePrefix}) ;
   }
 
 	handleClientID(event) {
@@ -51,6 +56,9 @@ class App extends Component {
 
   handleInstanceType(event) {
 		this.setState({authorizePrefix: event.target.value});
+    // Store the authorize prefix in session storage so we don't have to type
+    // it in again after every page reload
+    sessionStorage.setItem('authorizePrefix', event.target.value) ;
   }
 
   handleCustomDomain(event) {
@@ -67,19 +75,18 @@ class App extends Component {
     let authorizeBaseURL = null ;
     if(this.state.authorizePrefix==='CUSTOM'){
       authorizeBaseURL = this.state.customDomain + '/services/oauth2/authorize' ;
-
     } else {
       authorizeBaseURL = this.state.authorizePrefix + AUTHORIZE_URL
     }
     let authorizeURL = buildAuthorizeURL(authorizeBaseURL,
-                                        REDIRECT_URL,
-                                        this.state.clientID) ;
+                                         REDIRECT_URL,
+                                         this.state.clientID) ;
     return authorizeURL
   }
 
   render() {
     let accessCode = getAccessCode() ;
-    let authorizeURL = this.buildAuthorizeURL() ;
+    // const authorizeBaseURL = "https://shareddemo-hillelcommunity.cs16.force.com/services/oauth2/authorize" ;
 
     // Renders the access code if code is included as a query parameter
     let accessCodeMessage = null ;
@@ -96,7 +103,7 @@ class App extends Component {
         <FormControl
           className="input-box"
           value={this.state.customDomain}
-          onChange={this.customDomain}
+          onChange={this.handleCustomDomain}
           type="text"
         />
         </div>
@@ -143,7 +150,7 @@ class App extends Component {
                     <FormControl
                       className="input-box"
 											componentClass="select"
-											value={this.state.authorizationPrefix}
+											value={this.state.authorizePrefix}
 											onChange={this.handleInstanceType}
 										>
                       <option value='https://login.'>Production</option>
@@ -155,12 +162,11 @@ class App extends Component {
                 <Button
                   className="login-button pullRight"
                   bsStyle="primary"
-                  href={authorizeURL}
+                  href={this.buildAuthorizeURL()}
                 >Authenticate</Button>
               </Form>
             </Col>
           </Row>
-
         </div>
       </div>
     );
